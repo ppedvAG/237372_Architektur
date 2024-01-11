@@ -21,7 +21,17 @@ namespace ppedv.DiePizzaBude.Data.EfCore
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(conString).UseLazyLoadingProxies(); 
+            optionsBuilder.UseSqlServer(conString).UseLazyLoadingProxies();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Food>().ToTable(nameof(Food));
+            modelBuilder.Entity<Pizza>().ToTable(nameof(Pizza));
+            modelBuilder.Entity<Topping>().ToTable(nameof(Topping));
+
+            modelBuilder.Entity<Order>().HasOne(x => x.BillingAddress).WithMany(x => x.AsBillingAddress);
+            modelBuilder.Entity<Order>().HasOne(x => x.DeliveryAddress).WithMany(x => x.AsDeliveryAddress);
         }
     }
 }
