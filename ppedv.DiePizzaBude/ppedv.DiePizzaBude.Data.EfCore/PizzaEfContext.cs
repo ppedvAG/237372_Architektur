@@ -16,7 +16,7 @@ namespace ppedv.DiePizzaBude.Data.EfCore
         private string conString;
         private readonly Microsoft.Extensions.Logging.ILoggerFactory logFac;
 
-        public PizzaEfContext(string conString, ILoggerFactory logFac)
+        public PizzaEfContext(string conString, ILoggerFactory logFac = null)
         {
             this.conString = conString;
             this.logFac = logFac;
@@ -24,7 +24,10 @@ namespace ppedv.DiePizzaBude.Data.EfCore
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(conString).UseLazyLoadingProxies().EnableSensitiveDataLogging().UseLoggerFactory(logFac);
+            optionsBuilder.UseSqlServer(conString).UseLazyLoadingProxies();
+
+            if (logFac != null)
+                optionsBuilder.EnableSensitiveDataLogging().UseLoggerFactory(logFac);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
