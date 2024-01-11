@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.Extensions.Logging;
 using ppedv.DiePizzaBude.Data.EfCore;
 using ppedv.DiePizzaBude.Logic.Core;
 using ppedv.DiePizzaBude.Model.Contracts;
@@ -10,6 +11,14 @@ using System.Reflection;
 
 Console.WriteLine("*** Die Pizza Bude v1.0 ***");
 InitLogger();
+var loggerFactory = LoggerFactory.Create(logging =>
+{
+    logging.Configure(options =>
+    {
+        options.ActivityTrackingOptions = ActivityTrackingOptions.Tags | ActivityTrackingOptions.Baggage;
+    }).AddSerilog();
+});
+
 Log.Information("DevConsole started");
 
 string conString = "Server=(localdb)\\mssqllocaldb;Database=DiePizzaBude_dev;Trusted_Connection=true;";
@@ -28,7 +37,12 @@ string conString = "Server=(localdb)\\mssqllocaldb;Database=DiePizzaBude_dev;Tru
 
 //Dependency Injection per AutoFac
 var builder = new ContainerBuilder();
-builder.Register(x => new PizzaEfContextRepositoryAdapter(conString)).As<IRepository>().SingleInstance();
+builder.Register(x => loggerFactory.CreateLogger("")).As<Microsoft.Extensions.Logging.ILogger>();
+builder.Register(x =>
+{
+    var log = x.Resolve<Microsoft.Extensions.Logging.ILogger>();
+    return new PizzaEfContextRepositoryAdapter(conString, loggerFactory);
+}).As<IRepository>().SingleInstance();
 builder.RegisterType<OrderServices>();
 var container = builder.Build();
 
@@ -49,13 +63,15 @@ foreach (var order in ordersInProcess)
 }
 
 
+
+
 void InitLogger()
 {
     Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()  //muss als generelles Minimun festgelegt werden
                 .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Month, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
 #if DEBUG
-                .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
+                .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
 #else
                         .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
 #endif

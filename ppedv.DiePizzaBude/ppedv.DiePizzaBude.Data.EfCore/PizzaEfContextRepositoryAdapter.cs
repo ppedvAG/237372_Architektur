@@ -1,4 +1,5 @@
-﻿using ppedv.DiePizzaBude.Model.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using ppedv.DiePizzaBude.Model.Contracts;
 using ppedv.DiePizzaBude.Model.DomainModel;
 
 namespace ppedv.DiePizzaBude.Data.EfCore
@@ -7,9 +8,11 @@ namespace ppedv.DiePizzaBude.Data.EfCore
     {
         PizzaEfContext context;
 
-        public PizzaEfContextRepositoryAdapter(string conString)
+        public PizzaEfContextRepositoryAdapter(string conString, ILoggerFactory logFac)
         {
-            context = new PizzaEfContext(conString);
+            var log = logFac.CreateLogger<PizzaEfContextRepositoryAdapter>();
+            log.LogInformation("new PizzaEfContextRepositoryAdapter");
+            context = new PizzaEfContext(conString, logFac);
         }
 
         public void Add<T>(T entity) where T : Entity

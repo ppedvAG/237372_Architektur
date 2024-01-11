@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ppedv.DiePizzaBude.Model.DomainModel;
 
 namespace ppedv.DiePizzaBude.Data.EfCore
@@ -13,15 +14,17 @@ namespace ppedv.DiePizzaBude.Data.EfCore
         public DbSet<Topping> Toppings { get; set; }
 
         private string conString;
+        private readonly Microsoft.Extensions.Logging.ILoggerFactory logFac;
 
-        public PizzaEfContext(string conString)
+        public PizzaEfContext(string conString, ILoggerFactory logFac)
         {
             this.conString = conString;
+            this.logFac = logFac;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(conString).UseLazyLoadingProxies();
+            optionsBuilder.UseSqlServer(conString).UseLazyLoadingProxies().EnableSensitiveDataLogging().UseLoggerFactory(logFac);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
