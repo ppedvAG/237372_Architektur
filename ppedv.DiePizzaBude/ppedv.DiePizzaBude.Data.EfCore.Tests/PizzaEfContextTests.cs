@@ -108,28 +108,29 @@ namespace ppedv.DiePizzaBude.Data.EfCore.Tests
             }
         }
 
-        //[Fact]
-        //public void Can_create_and_read_Pizza_with_AutoFixture()
-        //{
-        //    var fix = new Fixture();
-        //    fix.Behaviors.Add(new OmitOnRecursionBehavior());
-        //    fix.Customizations.Add(new PropertyNameOmitter(nameof(Entity.Id)));
-            
-        //    var p = fix.Build<OrderItem>().With(x=>x.Food,).Create<Pizza>();
+        [Fact]
+        public void Can_create_and_read_Pizza_with_AutoFixture()
+        {
+            var fix = new Fixture();
+            fix.Behaviors.Add(new OmitOnRecursionBehavior());
+            fix.Customizations.Add(new PropertyNameOmitter(nameof(Entity.Id)));
+            fix.Customizations.Add(new TypeRelay(typeof(Food), typeof(Pizza)));
+            var p = fix.Create<Pizza>();
 
-        //    using (var con = new PizzaEfContext(conString))
-        //    {
-        //        con.Database.EnsureCreated();
-        //        con.Add(p);
-        //        con.SaveChanges().Should().BeGreaterThan(6);
-        //    }
-        //    using (var con = new PizzaEfContext(conString))
-        //    {
-        //        var loaded = con.Pizzas.Find(p.Id);
+            using (var con = new PizzaEfContext(conString))
+            {
+                con.Database.EnsureCreated();
+                con.Add(p);
+                var rows = con.SaveChanges().Should().BeGreaterThan(6);
+                //Console.WriteLine(rows);
+            }
+            using (var con = new PizzaEfContext(conString))
+            {
+                var loaded = con.Pizzas.Find(p.Id);
 
-        //        loaded.Should().BeEquivalentTo(p, x => x.IgnoringCyclicReferences());
-        //    }
-        //}
+                loaded.Should().BeEquivalentTo(p, x => x.IgnoringCyclicReferences());
+            }
+        }
 
         internal class PropertyNameOmitter : ISpecimenBuilder
         {
