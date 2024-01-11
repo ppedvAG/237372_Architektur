@@ -8,7 +8,7 @@ namespace ppedv.DiePizzaBude.Data.EfCore.Tests
 {
     public class PizzaEfContextTests
     {
-        string conString = "Server=(localdb)\\mssqllocaldb;Database=DiePizzaBude_dev;Trusted_Connection=true;";
+        readonly string conString = "Server=(localdb)\\mssqllocaldb;Database=DiePizzaBude_dev;Trusted_Connection=true;";
 
         [Fact]
         public void Can_create_DB()
@@ -69,7 +69,7 @@ namespace ppedv.DiePizzaBude.Data.EfCore.Tests
             using (var con = new PizzaEfContext(conString))
             {
                 var loaded = con.Pizzas.Find(pizza.Id);
-                loaded.Name = newName;
+                loaded!.Name = newName;
                 var rows = con.SaveChanges();
                 rows.Should().Be(1);
             }
@@ -96,7 +96,7 @@ namespace ppedv.DiePizzaBude.Data.EfCore.Tests
             using (var con = new PizzaEfContext(conString))
             {
                 var loaded = con.Pizzas.Find(pizza.Id);
-                con.Remove(loaded);
+                con.Remove(loaded!);
                 var rows = con.SaveChanges();
                 rows.Should().Be(2);
             }

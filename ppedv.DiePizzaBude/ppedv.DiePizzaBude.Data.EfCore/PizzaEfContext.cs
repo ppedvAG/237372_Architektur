@@ -13,10 +13,10 @@ namespace ppedv.DiePizzaBude.Data.EfCore
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Topping> Toppings { get; set; }
 
-        private string conString;
-        private readonly Microsoft.Extensions.Logging.ILoggerFactory logFac;
+        private readonly string conString;
+        private readonly Microsoft.Extensions.Logging.ILoggerFactory? logFac;
 
-        public PizzaEfContext(string conString, ILoggerFactory logFac = null)
+        public PizzaEfContext(string conString, ILoggerFactory? logFac = null)
         {
             this.conString = conString;
             this.logFac = logFac;

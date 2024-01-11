@@ -6,7 +6,7 @@ namespace ppedv.DiePizzaBude.Data.EfCore
 {
     public class PizzaEfContextRepositoryAdapter : IRepository
     {
-        PizzaEfContext context;
+        readonly PizzaEfContext context;
 
         public PizzaEfContextRepositoryAdapter(string conString, ILoggerFactory logFac)
         {

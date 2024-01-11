@@ -37,6 +37,7 @@ string conString = "Server=(localdb)\\mssqllocaldb;Database=DiePizzaBude_dev;Tru
 
 //Dependency Injection per AutoFac
 var builder = new ContainerBuilder();
+
 builder.Register(x => loggerFactory.CreateLogger("")).As<Microsoft.Extensions.Logging.ILogger>();
 builder.Register(x =>
 {
@@ -44,6 +45,7 @@ builder.Register(x =>
     return new PizzaEfContextRepositoryAdapter(conString, loggerFactory);
 }).As<IRepository>().SingleInstance();
 builder.RegisterType<OrderServices>();
+
 var container = builder.Build();
 
 IRepository repo = container.Resolve<IRepository>();
@@ -51,7 +53,7 @@ OrderServices orderService = container.Resolve<OrderServices>();
 
 var ordersInProcess = orderService.GetAllOrdersInProcess().ToList();
 
-Log.Information("{count} Orders in process found", ordersInProcess.Count());
+Log.Information("{count} Orders in process found", ordersInProcess.Count);
 foreach (var order in ordersInProcess)
 {
     Console.WriteLine($"{order.OrderDate:g} To: {order.DeliveryAddress?.Name1}");
