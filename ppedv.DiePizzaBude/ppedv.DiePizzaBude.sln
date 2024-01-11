@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.DiePizzaBude.UI.DevCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.DiePizzaBude.Logic.Core.Tests", "ppedv.DiePizzaBude.Logic.Core.Tests\ppedv.DiePizzaBude.Logic.Core.Tests.csproj", "{C8BF4C95-3D0B-48E5-99A2-A221A72DCF41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.DiePizzaBude.UI.WPF", "ppedv.DiePizzaBude.UI.WPF\ppedv.DiePizzaBude.UI.WPF.csproj", "{66CF322E-44FC-4553-AC4A-D68B4A939755}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C8BF4C95-3D0B-48E5-99A2-A221A72DCF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8BF4C95-3D0B-48E5-99A2-A221A72DCF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8BF4C95-3D0B-48E5-99A2-A221A72DCF41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66CF322E-44FC-4553-AC4A-D68B4A939755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CF322E-44FC-4553-AC4A-D68B4A939755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66CF322E-44FC-4553-AC4A-D68B4A939755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66CF322E-44FC-4553-AC4A-D68B4A939755}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

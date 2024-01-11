@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="ppedv.DiePizzaBude.UI.WPF.Views.AddressView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ppedv.DiePizzaBude.UI.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <WrapPanel DockPanel.Dock="Top">
+            <Button>Speichern</Button>
+            <Button>Neu</Button>
+            <Button>Löschen</Button>
+        </WrapPanel>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label>Name1</Label>
+                <TextBox Grid.Column="1"/>
+
+                <Label Grid.Row="1">Name2</Label>
+                <TextBox Grid.Row="1" Grid.Column="1"/>
+
+                <Label Grid.Row="2">Street</Label>
+                <TextBox Grid.Row="2" Grid.Column="1"/>
+
+                <Label Grid.Row="3">City</Label>
+                <TextBox Grid.Row="3" Grid.Column="1"/>
+                <GroupBox Grid.Row="4" Grid.ColumnSpan="2" Header="As Delivery">
+                    <ListBox/>
+                </GroupBox>
+                <GroupBox Grid.Row="5" Grid.ColumnSpan="2" Header="As Billing">
+                    <ListBox/>
+                </GroupBox>
+            </Grid>
+        </Grid>
+
+    </DockPanel>
+
+
+</UserControl>

@@ -54,7 +54,7 @@ namespace ppedv.DiePizzaBude.Logic.Core.Tests
             var result = services.GetAllOrdersInProcess();
 
             // Assert
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
             Assert.Equal(order, result.First());
         }
     }
