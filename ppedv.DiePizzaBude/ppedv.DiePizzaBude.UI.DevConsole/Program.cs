@@ -1,4 +1,6 @@
-﻿using ppedv.DiePizzaBude.Logic.Core;
+﻿using Autofac;
+using ppedv.DiePizzaBude.Data.EfCore;
+using ppedv.DiePizzaBude.Logic.Core;
 using ppedv.DiePizzaBude.Model.Contracts;
 using Serilog;
 using System.Reflection;
@@ -18,12 +20,20 @@ string conString = "Server=(localdb)\\mssqllocaldb;Database=DiePizzaBude_dev;Tru
 //OrderServices orderService = new OrderServices(repo);
 
 //Dependency Injection per Reflection
-var pathToLib = @"C:\Users\Fred\source\repos\237372_Architektur\ppedv.DiePizzaBude\ppedv.DiePizzaBude.Data.EfCore\bin\Debug\net8.0\ppedv.DiePizzaBude.Data.EfCore.dll";
-var ass = Assembly.LoadFrom(pathToLib);
-var repoType = ass.GetTypes().FirstOrDefault(x => x.GetInterfaces().Contains(typeof(IRepository)));
-IRepository repo = Activator.CreateInstance(repoType,conString) as IRepository;
-OrderServices orderService = new OrderServices(repo);
+//var pathToLib = @"C:\Users\Fred\source\repos\237372_Architektur\ppedv.DiePizzaBude\ppedv.DiePizzaBude.Data.EfCore\bin\Debug\net8.0\ppedv.DiePizzaBude.Data.EfCore.dll";
+//var ass = Assembly.LoadFrom(pathToLib);
+//var repoType = ass.GetTypes().FirstOrDefault(x => x.GetInterfaces().Contains(typeof(IRepository)));
+//IRepository repo = Activator.CreateInstance(repoType,conString) as IRepository;
+//OrderServices orderService = new OrderServices(repo);
 
+//Dependency Injection per AutoFac
+var builder = new ContainerBuilder();
+builder.Register(x => new PizzaEfContextRepositoryAdapter(conString)).As<IRepository>().SingleInstance();
+builder.RegisterType<OrderServices>();
+var container = builder.Build();
+
+IRepository repo = container.Resolve<IRepository>();
+OrderServices orderService = container.Resolve<OrderServices>();
 
 var ordersInProcess = orderService.GetAllOrdersInProcess().ToList();
 
