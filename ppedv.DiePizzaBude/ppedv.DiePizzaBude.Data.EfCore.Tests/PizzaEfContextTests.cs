@@ -1,7 +1,7 @@
 using AutoFixture;
 using AutoFixture.Kernel;
 using FluentAssertions;
-using ppedv.DiePizzaBude.Model;
+using ppedv.DiePizzaBude.Model.DomainModel;
 using System.Reflection;
 
 namespace ppedv.DiePizzaBude.Data.EfCore.Tests

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ppedv.DiePizzaBude.Model;
+using ppedv.DiePizzaBude.Model.DomainModel;
 
 namespace ppedv.DiePizzaBude.Data.EfCore
 {

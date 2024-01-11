@@ -1,4 +1,4 @@
-﻿namespace ppedv.DiePizzaBude.Model
+﻿namespace ppedv.DiePizzaBude.Model.DomainModel
 {
     public class Pizza : Food
     {
