@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ppedv.DiePizzaBude.Logic.Core;
 using ppedv.DiePizzaBude.Model.Contracts;
 using ppedv.DiePizzaBude.Model.DomainModel;
 using System.Collections.ObjectModel;
@@ -21,7 +22,8 @@ namespace ppedv.DiePizzaBude.UI.WPF.ViewModels
                 if (SelectedAddress == null)
                     return string.Empty;
 
-                return $"As Billing: {SelectedAddress.AsBillingAddress.Count} / As Delivery: {SelectedAddress.AsDeliveryAddress.Count}";
+                var sumAllOrders = SelectedAddress.AsBillingAddress.Union(SelectedAddress.AsDeliveryAddress).Sum(x => orderServices.CalcOrderPriceSum(x));
+                return $"sumAllOrders {sumAllOrders:c} / As Billing: {SelectedAddress.AsBillingAddress.Count} / As Delivery: {SelectedAddress.AsDeliveryAddress.Count}";
             }
         }
 
@@ -37,11 +39,12 @@ namespace ppedv.DiePizzaBude.UI.WPF.ViewModels
         }
 
         IRepository repo;
+        private readonly IOrderServices orderServices;
 
-        public AddressViewModel(IRepository repo)
+        public AddressViewModel(IRepository repo, IOrderServices orderServices)
         {
             this.repo = repo;
-
+            this.orderServices = orderServices;
             AddresseList = new ObservableCollection<Address>(repo.GetAll<Address>());
 
             SaveCommand = new RelayCommand(() => repo.SaveAll());

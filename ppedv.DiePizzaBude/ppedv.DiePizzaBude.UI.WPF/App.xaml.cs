@@ -36,7 +36,7 @@ namespace ppedv.DiePizzaBude.UI.WPF
 
             services.AddScoped<IRepository>(x => new Data.EfCore.PizzaEfContextRepositoryAdapter(conString));
             services.AddSingleton<AddressViewModel>();
-            services.AddSingleton<OrderServices>();
+            services.AddSingleton<IOrderServices, OrderServices>();
 
             return services.BuildServiceProvider();
         }

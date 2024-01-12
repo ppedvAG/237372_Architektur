@@ -3,7 +3,7 @@ using ppedv.DiePizzaBude.Model.DomainModel;
 
 namespace ppedv.DiePizzaBude.Logic.Core
 {
-    public class OrderServices
+    public class OrderServices : IOrderServices
     {
         private readonly IRepository repository;
 
@@ -15,7 +15,7 @@ namespace ppedv.DiePizzaBude.Logic.Core
         public IEnumerable<Order> GetAllOrdersInProcess()
         {
             return repository.GetAll<Order>()
-                             .Where(x => x.Status >= OrderStatus.Open && 
+                             .Where(x => x.Status >= OrderStatus.Open &&
                                          x.Status <= OrderStatus.Delivering);
         }
 
