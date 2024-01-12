@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ppedv.DiePizzaBude.UI.WPF.Views"
+             xmlns:local="clr-namespace:ppedv.DiePizzaBude.UI.WPF.Views" 
+             xmlns:viewmodels="clr-namespace:ppedv.DiePizzaBude.UI.WPF.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewmodels:AddressViewModel/>
+    </UserControl.DataContext>
     <DockPanel>
         <WrapPanel DockPanel.Dock="Top">
-            <Button>Speichern</Button>
+            <Button Command="{Binding SaveCommand}">Speichern</Button>  
             <Button>Neu</Button>
             <Button>Löschen</Button>
         </WrapPanel>
@@ -20,7 +24,9 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DataGrid/>
+            <DataGrid SelectionMode="Single"
+                      ItemsSource="{Binding AddresseList}"
+                      SelectedItem="{Binding SelectedAddress}"/>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
             <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
@@ -37,21 +43,30 @@
                 </Grid.RowDefinitions>
 
                 <Label>Name1</Label>
-                <TextBox Grid.Column="1"/>
+                <TextBox Grid.Column="1" Text="{Binding SelectedAddress.Name1}"/>
 
                 <Label Grid.Row="1">Name2</Label>
-                <TextBox Grid.Row="1" Grid.Column="1"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedAddress.Name2}"/>
 
                 <Label Grid.Row="2">Street</Label>
-                <TextBox Grid.Row="2" Grid.Column="1"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedAddress.Street}"/>
 
                 <Label Grid.Row="3">City</Label>
-                <TextBox Grid.Row="3" Grid.Column="1"/>
-                <GroupBox Grid.Row="4" Grid.ColumnSpan="2" Header="As Delivery">
-                    <ListBox/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedAddress.City}"/>
+                <GroupBox Grid.Row="4" Grid.ColumnSpan="2">
+                    <GroupBox.Header>
+                        <StackPanel>
+                            <TextBlock Text="{Binding AddressUsageInfo}"
+                                       Foreground="DarkOrchid"/>
+                            <TextBlock>As Delivery</TextBlock>
+                        </StackPanel>
+                    </GroupBox.Header>
+                    <ListBox ItemsSource="{Binding SelectedAddress.AsDeliveryAddress}"
+                             DisplayMemberPath="OrderDate"/>
                 </GroupBox>
                 <GroupBox Grid.Row="5" Grid.ColumnSpan="2" Header="As Billing">
-                    <ListBox/>
+                    <ListBox ItemsSource="{Binding SelectedAddress.AsBillingAddress}"
+                             DisplayMemberPath="OrderDate"/>
                 </GroupBox>
             </Grid>
         </Grid>

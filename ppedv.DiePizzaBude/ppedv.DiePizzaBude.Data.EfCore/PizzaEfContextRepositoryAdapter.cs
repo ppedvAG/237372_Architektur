@@ -8,10 +8,13 @@ namespace ppedv.DiePizzaBude.Data.EfCore
     {
         readonly PizzaEfContext context;
 
-        public PizzaEfContextRepositoryAdapter(string conString, ILoggerFactory logFac)
+        public PizzaEfContextRepositoryAdapter(string conString, ILoggerFactory? logFac = null)
         {
-            var log = logFac.CreateLogger<PizzaEfContextRepositoryAdapter>();
-            log.LogInformation("new PizzaEfContextRepositoryAdapter");
+            if (logFac != null)
+            {
+                var log = logFac.CreateLogger<PizzaEfContextRepositoryAdapter>();
+                log.LogInformation("new PizzaEfContextRepositoryAdapter");
+            }
             context = new PizzaEfContext(conString, logFac);
         }
 
