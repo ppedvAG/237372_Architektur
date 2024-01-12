@@ -1,0 +1,6 @@
+@ppedv.DiePizzaBude.API_HostAddress = http://localhost:5130
+
+GET {{ppedv.DiePizzaBude.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
