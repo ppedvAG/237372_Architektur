@@ -1,28 +1,18 @@
-﻿using ppedv.DiePizzaBude.Model.Contracts;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ppedv.DiePizzaBude.Model.Contracts;
 using ppedv.DiePizzaBude.Model.DomainModel;
-using System.ComponentModel;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace ppedv.DiePizzaBude.UI.WPF.ViewModels
 {
-    public class AddressViewModel : INotifyPropertyChanged
+    public partial class AddressViewModel : ObservableObject
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public ObservableCollection<Address> AddresseList { get; set; }
 
-        public List<Address> AddresseList { get; set; }
-
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(AddressUsageInfo))]
         private Address selectedAddress;
-
-        public Address SelectedAddress
-        {
-            get => selectedAddress;
-            set
-            {
-                selectedAddress = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedAddress)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddressUsageInfo)));
-            }
-        }
 
         public string AddressUsageInfo
         {
@@ -35,39 +25,26 @@ namespace ppedv.DiePizzaBude.UI.WPF.ViewModels
             }
         }
 
-        public SaveCommand SaveCommand { get; }
+        public RelayCommand SaveCommand { get; }
+
+        [RelayCommand()]
+        public void AddNewAddress()
+        {
+            var newAdr = new Address() { Name1 = "Fred" };
+            repo.Add(newAdr);
+            AddresseList.Add(newAdr);
+            SelectedAddress = newAdr;
+        }
+
         IRepository repo;
 
-        public AddressViewModel()
-        {
-            string conString = "Server=(localdb)\\mssqllocaldb;Database=DiePizzaBude_dev;Trusted_Connection=true;";
-            repo = new ppedv.DiePizzaBude.Data.EfCore.PizzaEfContextRepositoryAdapter(conString);
-            //OrderServices orderService = new OrderServices(repo);
-
-            AddresseList = new List<Address>(repo.GetAll<Address>());
-            SaveCommand = new SaveCommand(repo);
-        }
-    }
-
-    public class SaveCommand : ICommand
-    {
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter)
-        {
-            return true;
-        }
-
-        private IRepository repo;
-
-        public SaveCommand(IRepository repo)
+        public AddressViewModel(IRepository repo)
         {
             this.repo = repo;
-        }
 
-        public void Execute(object? parameter)
-        {
-            repo.SaveAll();
+            AddresseList = new ObservableCollection<Address>(repo.GetAll<Address>());
+
+            SaveCommand = new RelayCommand(() => repo.SaveAll());
         }
     }
 }

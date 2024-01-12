@@ -5,15 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ppedv.DiePizzaBude.UI.WPF.Views" 
              xmlns:viewmodels="clr-namespace:ppedv.DiePizzaBude.UI.WPF.ViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=viewmodels:AddressViewModel,IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <viewmodels:AddressViewModel/>
-    </UserControl.DataContext>
     <DockPanel>
         <WrapPanel DockPanel.Dock="Top">
-            <Button Command="{Binding SaveCommand}">Speichern</Button>  
-            <Button>Neu</Button>
+            <Button Command="{Binding SaveCommand}">Speichern</Button>
+            <Button Command="{Binding AddNewAddressCommand}">Neu</Button>
             <Button>Löschen</Button>
         </WrapPanel>
 
@@ -61,12 +58,10 @@
                             <TextBlock>As Delivery</TextBlock>
                         </StackPanel>
                     </GroupBox.Header>
-                    <ListBox ItemsSource="{Binding SelectedAddress.AsDeliveryAddress}"
-                             DisplayMemberPath="OrderDate"/>
+                    <DataGrid ItemsSource="{Binding SelectedAddress.AsDeliveryAddress}"/>
                 </GroupBox>
                 <GroupBox Grid.Row="5" Grid.ColumnSpan="2" Header="As Billing">
-                    <ListBox ItemsSource="{Binding SelectedAddress.AsBillingAddress}"
-                             DisplayMemberPath="OrderDate"/>
+                    <DataGrid ItemsSource="{Binding SelectedAddress.AsBillingAddress}"/>
                 </GroupBox>
             </Grid>
         </Grid>
