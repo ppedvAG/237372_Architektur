@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ppedv.DiePizzaBude.Data.EfCore\ppedv.DiePizzaBude.Data.EfCore.csproj" />
+    <ProjectReference Include="..\ppedv.DiePizzaBude.Logic.Core\ppedv.DiePizzaBude.Logic.Core.csproj" />
+    <ProjectReference Include="..\ppedv.DiePizzaBude.Model\ppedv.DiePizzaBude.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
